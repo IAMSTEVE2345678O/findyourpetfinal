@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In — FindMyPet</title>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Georgia','Times New Roman',serif;background:#080808;color:#f0f0f0;min-height:100vh;display:flex;flex-direction:column}
+    .ticker-wrap{background:#e63c2f;overflow:hidden;white-space:nowrap;height:28px;display:flex;align-items:center}
+    .ticker-label{background:#9a1a10;color:#fff;font-family:'Segoe UI',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:0 1rem;height:100%;display:flex;align-items:center;flex-shrink:0}
+    .ticker-track{display:inline-block;animation:ticker 28s linear infinite}
+    .ticker-track span{font-family:'Segoe UI',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#fff;padding:0 2.5rem}
+    .ticker-track span::before{content:'●  ';opacity:.6}
+    @keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+    .page-header{background:#080808;border-bottom:3px solid #e63c2f;padding:0 2.5rem;height:52px;display:flex;align-items:center;gap:1.25rem;flex-shrink:0}
+    .page-logo{font-family:'Georgia',serif;font-size:1.4rem;font-weight:900;letter-spacing:-1px;text-transform:uppercase;color:#fff;text-decoration:none;line-height:1}
+    .page-logo em{font-style:normal;color:#e63c2f}
+    .header-sep{width:1px;height:20px;background:#2a2a2a;flex-shrink:0}
+    .page-section{font-family:'Segoe UI',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#555}
+    .header-nav{margin-left:auto;display:flex;align-items:center;gap:.75rem}
+    .header-nav a{font-family:'Segoe UI',sans-serif;font-size:.72rem;color:#555;text-decoration:none}
+    footer{border-top:3px double #1a1a1a;padding:.9rem 2.5rem;display:flex;justify-content:space-between;align-items:center;margin-top:auto}
+    footer span,footer a{font-family:'Segoe UI',sans-serif;font-size:.62rem;color:#2a2a2a;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none}
+    footer a:hover{color:#555}
+    .form-group{margin-bottom:1.1rem}
+    .form-label{display:block;font-family:'Segoe UI',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#555;margin-bottom:.4rem}
+    .form-input{width:100%;background:#0f0f0f;border:1px solid #1f1f1f;color:#f0f0f0;font-family:'Segoe UI',sans-serif;font-size:.9rem;padding:.7rem .9rem}
+    .form-input:focus{outline:none;border-color:#e63c2f}
+    .form-input::placeholder{color:#333}
+    .error-msg{font-family:'Segoe UI',sans-serif;font-size:.78rem;color:#e63c2f;padding:.6rem .8rem;border:1px solid rgba(230,60,47,.25);background:#120505;margin-bottom:1rem;display:none}
+
+    /* AUTH BOX */
+    .auth-wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:2.5rem 1rem}
+    .auth-box{width:100%;max-width:400px;border:1px solid #1a1a1a;background:#0a0a0a}
+    .tab-bar{display:flex;border-bottom:1px solid #1a1a1a}
+    .tab{flex:1;padding:.85rem;font-family:'Segoe UI',sans-serif;font-size:.7rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;text-align:center;cursor:pointer;color:#444;background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .15s,border-color .15s}
+    .tab.active{color:#f0f0f0;border-bottom-color:#e63c2f}
+    .auth-form{padding:1.75rem}
+
+    /* SUBMIT */
+    .btn-submit{width:100%;padding:.85rem;background:#e63c2f;color:#fff;font-family:'Segoe UI',sans-serif;font-size:.82rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;border:none;cursor:pointer;margin-top:.5rem}
+    .btn-submit:hover{background:#c9271b}
+
+    /* DIVIDER */
+    .divider{display:flex;align-items:center;gap:.75rem;margin:1.25rem 0;padding:0 1.75rem}
+    .divider-line{flex:1;height:1px;background:#1a1a1a}
+    .divider-text{font-family:'Segoe UI',sans-serif;font-size:.62rem;color:#444;letter-spacing:1px;text-transform:uppercase;white-space:nowrap}
+
+    /* OAUTH BUTTONS */
+    .oauth-btns{display:flex;flex-direction:column;gap:.6rem;padding:0 1.75rem 1.75rem}
+    .oauth-btn{display:flex;align-items:center;gap:.75rem;padding:.7rem 1rem;border:none;cursor:pointer;font-size:.82rem;font-weight:600;width:100%;transition:opacity .15s}
+    .oauth-btn:hover{opacity:.88}
+    .oauth-btn svg{flex-shrink:0}
+    .oauth-google{background:#fff;color:#3c4043;border:1px solid #dadce0}
+    .oauth-microsoft{background:#fff;color:#5e5e5e;border:1px solid #dadce0}
+    .oauth-apple{background:#000;color:#fff;border:1px solid #333}
+
+    .forgot{font-family:'Segoe UI',sans-serif;font-size:.7rem;color:#444;text-decoration:none;display:block;text-align:right;margin-top:.4rem}
+    .forgot:hover{color:#888}
+
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+  </style>
+</head>
+<body>
+
+  <div class="ticker-wrap">
+    <div class="ticker-label">Live</div>
+    <div class="ticker-track">
+      <span>FindMyPet — reuniting pets and families</span>
+      <span>Post a missing pet in under 2 minutes</span>
+      <span>Community-powered search network</span>
+      <span>FindMyPet — reuniting pets and families</span>
+      <span>Post a missing pet in under 2 minutes</span>
+      <span>Community-powered search network</span>
+    </div>
+  </div>
+
+  <header class="page-header">
+    <a href="index.html" class="page-logo">Find<em>My</em>Pet</a>
+    <div class="header-sep"></div>
+    <span class="page-section">Account</span>
+    <nav class="header-nav">
+      <a href="browse.html">Browse Cases</a>
+    </nav>
+  </header>
+
+  <div class="auth-wrap">
+    <div class="auth-box">
+
+      <div class="tab-bar">
+        <button class="tab active" id="tab-signin" onclick="switchTab('signin')">Sign In</button>
+        <button class="tab" id="tab-register" onclick="switchTab('register')">Create Account</button>
+      </div>
+
+      <!-- SIGN IN -->
+      <div id="form-signin" class="auth-form">
+        <div class="error-msg" id="signin-error"></div>
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input class="form-input" type="email" id="si-email" placeholder="you@example.com" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input class="form-input" type="password" id="si-pass" placeholder="••••••••" />
+          <a href="#" class="forgot">Forgot password?</a>
+        </div>
+        <button class="btn-submit" onclick="doSignIn()">Sign In</button>
+      </div>
+
+      <!-- REGISTER -->
+      <div id="form-register" class="auth-form" style="display:none">
+        <div class="error-msg" id="reg-error"></div>
+        <div class="form-group">
+          <label class="form-label">Full Name</label>
+          <input class="form-input" type="text" id="r-name" placeholder="Jane Smith" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input class="form-input" type="email" id="r-email" placeholder="you@example.com" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone Number</label>
+          <input class="form-input" type="tel" id="r-phone" placeholder="+1 555 000 0000" />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <input class="form-input" type="password" id="r-pass" placeholder="••••••••" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Confirm</label>
+            <input class="form-input" type="password" id="r-pass2" placeholder="••••••••" />
+          </div>
+        </div>
+        <button class="btn-submit" onclick="doRegister()">Create Account</button>
+      </div>
+
+      <!-- DIVIDER -->
+      <div class="divider">
+        <div class="divider-line"></div>
+        <span class="divider-text">or continue with</span>
+        <div class="divider-line"></div>
+      </div>
+
+      <!-- OAUTH BUTTONS -->
+      <div class="oauth-btns">
+        <button class="oauth-btn oauth-google" onclick="oauthLogin('google')">
+          <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/>
+            <path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z" fill="#34A853"/>
+            <path d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z" fill="#FBBC05"/>
+            <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z" fill="#EA4335"/>
+          </svg>
+          Sign in with Google
+        </button>
+        <button class="oauth-btn oauth-microsoft" onclick="oauthLogin('microsoft')">
+          <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="8.5" height="8.5" fill="#f35325"/>
+            <rect x="9.5" y="0" width="8.5" height="8.5" fill="#81bc06"/>
+            <rect x="0" y="9.5" width="8.5" height="8.5" fill="#05a6f0"/>
+            <rect x="9.5" y="9.5" width="8.5" height="8.5" fill="#ffba08"/>
+          </svg>
+          Sign in with Microsoft
+        </button>
+        <button class="oauth-btn oauth-apple" onclick="oauthLogin('apple')">
+          <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" fill="#fff">
+            <path d="M12.87 9.45c-.02-2.04 1.67-3.02 1.74-3.07-1.02-1.41-2.53-1.56-3.06-1.57-1.28-.13-2.52.76-3.17.76-.66 0-1.66-.75-2.73-.73-1.39.02-2.69.82-3.41 2.07-1.46 2.53-.37 6.26 1.04 8.31.71 1.01 1.54 2.15 2.63 2.11 1.06-.04 1.46-.68 2.74-.68 1.28 0 1.64.68 2.76.66 1.14-.02 1.86-1.03 2.55-2.04.82-1.16 1.15-2.3 1.16-2.36-.03-.01-2.22-.85-2.25-3.46z"/>
+            <path d="M10.76 3.17c.57-.7.96-1.67.85-2.64-.83.04-1.86.57-2.45 1.25-.52.61-.99 1.6-.87 2.54.93.07 1.89-.47 2.47-1.15z"/>
+          </svg>
+          Sign in with Apple
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <span>FindMyPet &copy; 2026</span>
+    <a href="privacy.html">Privacy Policy</a>
+  </footer>
+
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script src="app.js"></script>
+  <script>
+    function goNext() {
+      const next = new URLSearchParams(location.search).get('next');
+      window.location.href = next && next.startsWith('http') ? decodeURIComponent(next) : (next || 'index.html');
+    }
+
+    function switchTab(tab) {
+      document.getElementById('form-signin').style.display   = tab === 'signin'   ? '' : 'none';
+      document.getElementById('form-register').style.display = tab === 'register' ? '' : 'none';
+      document.getElementById('tab-signin').classList.toggle('active',   tab === 'signin');
+      document.getElementById('tab-register').classList.toggle('active', tab === 'register');
+    }
+
+    function showError(id, msg) {
+      const el = document.getElementById(id);
+      el.textContent = msg;
+      el.style.display = 'block';
+    }
+    function clearError(id) { document.getElementById(id).style.display = 'none'; }
+
+    async function doSignIn() {
+      clearError('signin-error');
+      const email = document.getElementById('si-email').value.trim();
+      const pass  = document.getElementById('si-pass').value;
+      if (!email || !pass) { showError('signin-error', 'Please enter your email and password.'); return; }
+      const { error } = await FMP.loginUser(email, pass);
+      if (error) { showError('signin-error', error); return; }
+      goNext();
+    }
+
+    async function doRegister() {
+      clearError('reg-error');
+      const name  = document.getElementById('r-name').value.trim();
+      const email = document.getElementById('r-email').value.trim();
+      const phone = document.getElementById('r-phone').value.trim();
+      const pass  = document.getElementById('r-pass').value;
+      const pass2 = document.getElementById('r-pass2').value;
+      if (!name || !email || !phone || !pass) { showError('reg-error', 'Please fill in all required fields.'); return; }
+      if (pass !== pass2) { showError('reg-error', 'Passwords do not match.'); return; }
+      if (pass.length < 6)  { showError('reg-error', 'Password must be at least 6 characters.'); return; }
+      const { error, session } = await FMP.registerUser({ name, email, phone, password: pass });
+      if (error) { showError('reg-error', error); return; }
+      if (!session) { showError('reg-error', 'Account created — check your email to confirm it before signing in.'); return; }
+      goNext();
+    }
+
+    async function oauthLogin(provider) {
+      clearError('signin-error');
+      const { error } = await FMP.oauthLogin(provider);
+      if (error) showError('signin-error', error);
+      // On success the browser redirects to the provider's sign-in page.
+    }
+
+    // If already logged in, go home
+    FMP.getUser().then(user => { if (user) window.location.href = 'index.html'; });
+
+    // Handle ?tab= and ?email= from homepage quick-signup
+    const params = new URLSearchParams(location.search);
+    if (params.get('tab') === 'register') switchTab('register');
+    const preEmail = params.get('email');
+    if (preEmail) {
+      document.getElementById('r-email').value = preEmail;
+      if (params.get('tab') === 'register') document.getElementById('r-name').focus();
+    }
+  </script>
+
+</body>
+</html>

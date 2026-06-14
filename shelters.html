@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Animal Shelter Finder — FindMyPet</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Georgia','Times New Roman',serif;background:#080808;color:#f0f0f0;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+    .ticker-wrap{background:#e63c2f;overflow:hidden;white-space:nowrap;height:28px;display:flex;align-items:center;flex-shrink:0}
+    .ticker-label{background:#9a1a10;color:#fff;font-family:'Segoe UI',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:0 1rem;height:100%;display:flex;align-items:center;flex-shrink:0}
+    .ticker-track{display:inline-block;animation:ticker 28s linear infinite}
+    .ticker-track span{font-family:'Segoe UI',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#fff;padding:0 2.5rem}
+    .ticker-track span::before{content:'●  ';opacity:.6}
+    @keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+    .page-header{background:#080808;border-bottom:3px solid #e63c2f;padding:0 2.5rem;height:52px;display:flex;align-items:center;gap:1.25rem;flex-shrink:0}
+    .page-logo{font-family:'Georgia',serif;font-size:1.4rem;font-weight:900;letter-spacing:-1px;text-transform:uppercase;color:#fff;text-decoration:none;line-height:1;white-space:nowrap}
+    .page-logo em{font-style:normal;color:#e63c2f}
+    .header-sep{width:1px;height:20px;background:#2a2a2a;flex-shrink:0}
+    .page-section{font-family:'Segoe UI',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#555}
+    .header-nav{margin-left:auto;display:flex;align-items:center;gap:.75rem}
+    .header-nav a{font-family:'Segoe UI',sans-serif;font-size:.72rem;color:#555;text-decoration:none;letter-spacing:.5px}
+    .header-nav a:hover{color:#ddd}
+    .header-nav .reg-btn{background:#e63c2f;color:#fff !important;padding:.3rem .8rem;font-weight:700;font-size:.68rem;letter-spacing:1px;text-transform:uppercase}
+
+    /* Search bar */
+    .search-bar{padding:.9rem 2.5rem;border-bottom:1px solid #141414;display:flex;gap:.65rem;align-items:center;flex-shrink:0;flex-wrap:wrap}
+    .search-bar input{flex:1;min-width:220px;background:#0f0f0f;border:1px solid #1f1f1f;color:#f0f0f0;font-family:'Segoe UI',sans-serif;font-size:.85rem;padding:.65rem .9rem}
+    .search-bar input:focus{outline:none;border-color:#e63c2f}
+    .search-bar input::placeholder{color:#333}
+    .search-btn{background:#e63c2f;color:#fff;font-family:'Segoe UI',sans-serif;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;padding:.7rem 1.5rem;border:none;cursor:pointer;white-space:nowrap}
+    .search-btn:hover{background:#c9271b}
+    .search-btn:disabled{opacity:.5;cursor:default}
+    .locate-btn{background:transparent;color:#555;font-family:'Segoe UI',sans-serif;font-size:.76rem;border:1px solid #2a2a2a;padding:.65rem 1rem;cursor:pointer;white-space:nowrap}
+    .locate-btn:hover{border-color:#555;color:#ddd}
+    .search-status{font-family:'Segoe UI',sans-serif;font-size:.7rem;color:#444;width:100%;margin-top:.15rem}
+    .search-status.error{color:#e63c2f}
+    .search-status.ok{color:#7aba7a}
+
+    /* Map + sidebar */
+    .map-layout{flex:1;display:flex;overflow:hidden;min-height:0}
+    #map{flex:1;background:#111;min-width:0}
+    .shelter-sidebar{width:330px;border-left:1px solid #141414;display:flex;flex-direction:column;flex-shrink:0;overflow:hidden}
+    .sidebar-head{padding:.85rem 1.25rem;border-bottom:1px solid #141414;flex-shrink:0}
+    .sidebar-title{font-family:'Segoe UI',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#e63c2f}
+    .shelter-list{flex:1;overflow-y:auto}
+    .shelter-card{padding:.95rem 1.25rem;border-bottom:1px solid #111;cursor:pointer;transition:background .1s}
+    .shelter-card:hover{background:#0d0d0d}
+    .shelter-card.active{background:#0d0505;border-left:3px solid #e63c2f}
+    .shelter-name{font-family:'Segoe UI',sans-serif;font-size:.82rem;font-weight:800;color:#ddd;text-transform:uppercase;letter-spacing:.3px;margin-bottom:.25rem}
+    .shelter-addr{font-family:'Segoe UI',sans-serif;font-size:.7rem;color:#555;line-height:1.6}
+    .shelter-dist{font-family:'Segoe UI',sans-serif;font-size:.66rem;color:#e63c2f;font-weight:700;margin-top:.3rem;letter-spacing:.5px;text-transform:uppercase}
+    .shelter-empty{padding:2.5rem 1.5rem;text-align:center;font-family:'Segoe UI',sans-serif;font-size:.78rem;color:#2a2a2a;line-height:1.85}
+
+    /* Leaflet popup theming */
+    .leaflet-popup-content-wrapper{background:#111;color:#f0f0f0;border-radius:0;border:1px solid #2a2a2a}
+    .leaflet-popup-content{font-family:'Segoe UI',sans-serif;font-size:.78rem;margin:.7rem .9rem;line-height:1.6}
+    .leaflet-popup-content b{color:#e63c2f}
+    .leaflet-popup-tip{background:#111;border:1px solid #2a2a2a}
+    .leaflet-container a.leaflet-popup-close-button{color:#777}
+    .leaflet-container{font-family:'Segoe UI',sans-serif;background:#111}
+
+    @media(max-width:760px){.shelter-sidebar{display:none}.search-bar input{min-width:140px}}
+  </style>
+</head>
+<body>
+
+  <div class="ticker-wrap">
+    <div class="ticker-label">Live</div>
+    <div class="ticker-track">
+      <span>FindMyPet — locate licensed animal shelters near any address</span>
+      <span>Many lost pets are recovered at local shelters within 48 hours</span>
+      <span>FindMyPet — locate licensed animal shelters near any address</span>
+      <span>Many lost pets are recovered at local shelters within 48 hours</span>
+    </div>
+  </div>
+
+  <header class="page-header">
+    <a href="index.html" class="page-logo">Find<em>My</em>Pet</a>
+    <div class="header-sep"></div>
+    <span class="page-section">Shelter Finder</span>
+    <nav class="header-nav" id="header-nav">
+      <a href="auth.html">Sign In</a>
+      <a href="auth.html" class="reg-btn">Register</a>
+    </nav>
+  </header>
+
+  <div class="search-bar">
+    <input type="text" id="search-input" placeholder="Enter a city, zip code, or address…" onkeydown="if(event.key==='Enter')searchShelters()" />
+    <button class="search-btn" id="search-btn" onclick="searchShelters()">🔍 &nbsp;Search Shelters</button>
+    <button class="locate-btn" onclick="useMyLocation()">📍 Use my location</button>
+    <div class="search-status" id="search-status">Search any location to find nearby licensed animal shelters — pulled live from OpenStreetMap.</div>
+  </div>
+
+  <div class="map-layout">
+    <div id="map"></div>
+    <div class="shelter-sidebar">
+      <div class="sidebar-head"><div class="sidebar-title">&#9632; Shelters Found</div></div>
+      <div class="shelter-list" id="shelter-list">
+        <div class="shelter-empty">Search a location above to see animal shelters in that area, plotted on the map.</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script src="app.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    async function doLogout() { await FMP.logout(); window.location.href = 'index.html'; }
+    FMP.initHeader();
+
+    /* ── Map setup ── */
+    const map = L.map('map', { zoomControl: true }).setView([39.8283, -98.5795], 4);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors',
+      maxZoom: 19
+    }).addTo(map);
+    setTimeout(() => map.invalidateSize(), 150);
+    window.addEventListener('resize', () => map.invalidateSize());
+
+    const shelterIcon = L.divIcon({
+      className: '',
+      html: '<div style="background:#e63c2f;width:14px;height:14px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.6)"></div>',
+      iconSize: [14,14],
+      iconAnchor: [7,14]
+    });
+
+    let markers = [];
+    let originMarker = null;
+
+    function clearMarkers() {
+      markers.forEach(m => map.removeLayer(m.marker));
+      markers = [];
+    }
+
+    function setStatus(msg, type) {
+      const el = document.getElementById('search-status');
+      el.textContent = msg;
+      el.className = 'search-status' + (type ? ' ' + type : '');
+    }
+
+    function haversineMiles(lat1, lon1, lat2, lon2) {
+      const R = 3958.8;
+      const toRad = d => d * Math.PI / 180;
+      const dLat = toRad(lat2 - lat1), dLon = toRad(lon2 - lon1);
+      const a = Math.sin(dLat/2)**2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon/2)**2;
+      return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    }
+
+    async function geocode(query) {
+      const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(query)}`;
+      const res = await fetch(url, { headers: { 'Accept-Language': 'en' } });
+      if (!res.ok) throw new Error('Geocoding service is unavailable right now. Please try again shortly.');
+      const data = await res.json();
+      if (!data.length) throw new Error(`Couldn't find "${query}". Try a city name, zip code, or full address.`);
+      return { lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon), label: data[0].display_name };
+    }
+
+    async function findShelters(lat, lon) {
+      const radius = 25000; // ~15.5 miles
+      const ql = `[out:json][timeout:25];(
+        node["amenity"="animal_shelter"](around:${radius},${lat},${lon});
+        way["amenity"="animal_shelter"](around:${radius},${lat},${lon});
+        node["amenity"="animal_boarding"](around:${radius},${lat},${lon});
+        way["amenity"="animal_boarding"](around:${radius},${lat},${lon});
+      );out center;`;
+      const res = await fetch('https://overpass-api.de/api/interpreter', {
+        method: 'POST',
+        body: 'data=' + encodeURIComponent(ql)
+      });
+      if (!res.ok) throw new Error('Shelter lookup service is unavailable right now. Please try again shortly.');
+      const data = await res.json();
+      return (data.elements || []).map(el => {
+        const elLat = el.lat ?? el.center?.lat;
+        const elLon = el.lon ?? el.center?.lon;
+        const tags  = el.tags || {};
+        const addrParts = [tags['addr:housenumber'], tags['addr:street'], tags['addr:city'], tags['addr:state'], tags['addr:postcode']].filter(Boolean);
+        return {
+          name:    tags.name || (tags.amenity === 'animal_boarding' ? 'Animal Boarding Facility' : 'Animal Shelter'),
+          lat: elLat, lon: elLon,
+          address: addrParts.join(', ') || 'Address not listed',
+          phone:   tags.phone || tags['contact:phone'] || '',
+          website: tags.website || tags['contact:website'] || '',
+          dist:    haversineMiles(lat, lon, elLat, elLon)
+        };
+      }).filter(s => s.lat && s.lon).sort((a, b) => a.dist - b.dist);
+    }
+
+    function renderShelters(shelters, origin) {
+      clearMarkers();
+      const listEl = document.getElementById('shelter-list');
+
+      if (shelters.length === 0) {
+        listEl.innerHTML = `<div class="shelter-empty">No registered animal shelters found within 15 miles of this location.<br/><br/>Try searching a nearby larger city or town.</div>`;
+        return;
+      }
+
+      listEl.innerHTML = '';
+      const bounds = [[origin.lat, origin.lon]];
+      shelters.forEach((s, i) => {
+        const marker = L.marker([s.lat, s.lon], { icon: shelterIcon }).addTo(map);
+        marker.bindPopup(
+          `<b>${esc(s.name)}</b><br/>${esc(s.address)}` +
+          (s.phone   ? `<br/>📞 ${esc(s.phone)}` : '') +
+          (s.website ? `<br/><a href="${esc(s.website)}" target="_blank" rel="noopener" style="color:#e63c2f">Visit website →</a>` : '') +
+          `<br/><span style="color:#7aba7a">${s.dist.toFixed(1)} mi away</span>`
+        );
+        marker.on('click', () => setActive(i));
+        markers.push({ marker, shelter: s });
+        bounds.push([s.lat, s.lon]);
+
+        const card = document.createElement('div');
+        card.className = 'shelter-card';
+        card.innerHTML = `
+          <div class="shelter-name">${esc(s.name)}</div>
+          <div class="shelter-addr">${esc(s.address)}${s.phone ? '<br/>📞 ' + esc(s.phone) : ''}</div>
+          <div class="shelter-dist">${s.dist.toFixed(1)} mi away</div>`;
+        card.onclick = () => setActive(i);
+        listEl.appendChild(card);
+      });
+
+      map.fitBounds(bounds, { padding: [50, 50], maxZoom: 13 });
+    }
+
+    function setActive(i) {
+      document.querySelectorAll('.shelter-card').forEach((c, idx) => c.classList.toggle('active', idx === i));
+      const m = markers[i];
+      if (m) {
+        map.panTo(m.marker.getLatLng());
+        m.marker.openPopup();
+        const card = document.querySelectorAll('.shelter-card')[i];
+        if (card) card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+
+    async function runSearch(originPromise, label) {
+      const btn = document.getElementById('search-btn');
+      btn.disabled = true;
+      setStatus('Searching…');
+      document.getElementById('shelter-list').innerHTML = `<div class="shelter-empty">Searching for shelters…</div>`;
+      try {
+        const origin = await originPromise;
+        if (originMarker) map.removeLayer(originMarker);
+        originMarker = L.circleMarker([origin.lat, origin.lon], { radius: 7, color: '#fff', weight: 2, fillColor: '#e63c2f', fillOpacity: 1 }).addTo(map);
+        originMarker.bindPopup(`<b>Search center</b><br/>${esc(origin.label || label)}`);
+        map.setView([origin.lat, origin.lon], 12);
+
+        const shelters = await findShelters(origin.lat, origin.lon);
+        renderShelters(shelters, origin);
+        setStatus(`Found ${shelters.length} shelter${shelters.length !== 1 ? 's' : ''} within 15 miles of ${label}.`, shelters.length ? 'ok' : '');
+      } catch (err) {
+        setStatus(err.message || 'Something went wrong. Please try again.', 'error');
+        document.getElementById('shelter-list').innerHTML = `<div class="shelter-empty">${esc(err.message || 'Search failed.')}</div>`;
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    function searchShelters() {
+      const query = document.getElementById('search-input').value.trim();
+      if (!query) { setStatus('Enter a city, zip code, or address to search.', 'error'); return; }
+      runSearch(geocode(query), `"${query}"`);
+    }
+
+    function useMyLocation() {
+      if (!navigator.geolocation) { setStatus('Your browser does not support geolocation.', 'error'); return; }
+      setStatus('Getting your location…');
+      navigator.geolocation.getCurrentPosition(
+        pos => {
+          document.getElementById('search-input').value = '';
+          const { latitude, longitude } = pos.coords;
+          runSearch(Promise.resolve({ lat: latitude, lon: longitude, label: 'your location' }), 'your location');
+        },
+        () => setStatus('Could not get your location. Please allow location access, or search by name instead.', 'error')
+      );
+    }
+  </script>
+
+</body>
+</html>

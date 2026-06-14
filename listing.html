@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Case Detail — FindMyPet</title>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Georgia','Times New Roman',serif;background:#080808;color:#f0f0f0;min-height:100vh;display:flex;flex-direction:column}
+    .ticker-wrap{background:#e63c2f;overflow:hidden;white-space:nowrap;height:28px;display:flex;align-items:center}
+    .ticker-label{background:#9a1a10;color:#fff;font-family:'Segoe UI',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:0 1rem;height:100%;display:flex;align-items:center;flex-shrink:0}
+    .ticker-track{display:inline-block;animation:ticker 28s linear infinite}
+    .ticker-track span{font-family:'Segoe UI',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#fff;padding:0 2.5rem}
+    .ticker-track span::before{content:'●  ';opacity:.6}
+    @keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+    .page-header{background:#080808;border-bottom:3px solid #e63c2f;padding:0 2.5rem;height:52px;display:flex;align-items:center;gap:1.25rem;flex-shrink:0}
+    .page-logo{font-family:'Georgia',serif;font-size:1.4rem;font-weight:900;letter-spacing:-1px;text-transform:uppercase;color:#fff;text-decoration:none;line-height:1;white-space:nowrap}
+    .page-logo em{font-style:normal;color:#e63c2f}
+    .header-sep{width:1px;height:20px;background:#2a2a2a;flex-shrink:0}
+    .page-section{font-family:'Segoe UI',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#555}
+    .header-nav{margin-left:auto;display:flex;align-items:center;gap:.75rem}
+    .header-nav a{font-family:'Segoe UI',sans-serif;font-size:.72rem;color:#555;text-decoration:none;letter-spacing:.5px}
+    .header-nav a:hover{color:#ddd}
+    .header-nav .reg-btn{background:#e63c2f;color:#fff !important;padding:.3rem .8rem;font-weight:700;font-size:.68rem;letter-spacing:1px;text-transform:uppercase}
+    .section-rule{font-family:'Segoe UI',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#e63c2f;border-bottom:2px solid #e63c2f;padding-bottom:.5rem;margin-bottom:1.5rem}
+    footer{border-top:3px double #1a1a1a;padding:.9rem 2.5rem;display:flex;justify-content:space-between;align-items:center;margin-top:auto}
+    footer span,footer a{font-family:'Segoe UI',sans-serif;font-size:.62rem;color:#2a2a2a;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none}
+    footer a:hover{color:#555}
+    .badge{font-family:'Segoe UI',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:.25rem .6rem;display:inline-block}
+    .badge-open{background:#e63c2f;color:#fff}
+    .badge-solved{background:#1a1a1a;color:#555;border:1px solid #2a2a2a}
+
+    .breadcrumb{padding:.6rem 2.5rem;border-bottom:1px solid #111;font-family:'Segoe UI',sans-serif;font-size:.65rem;color:#333}
+    .breadcrumb a{color:#444;text-decoration:none}
+    .breadcrumb a:hover{color:#e63c2f}
+    .breadcrumb span{margin:0 .4rem}
+
+    .solved-banner{background:#0a1a0a;border-bottom:2px solid #2a5a2a;padding:.9rem 2.5rem;font-family:'Segoe UI',sans-serif;font-size:.82rem;color:#7aba7a;display:none}
+
+    .layout{display:grid;grid-template-columns:1fr 1fr;flex:1}
+    .col-photo{border-right:1px solid #141414;display:flex;flex-direction:column}
+    .pet-photo{background:#111;display:flex;align-items:center;justify-content:center;font-size:8rem;border-bottom:1px solid #141414;overflow:hidden;min-height:300px}
+    .pet-photo img{width:100%;height:340px;object-fit:cover}
+    .desc-block{padding:2rem 2.5rem;flex:1}
+    .desc-text{font-size:.88rem;color:#777;line-height:1.85}
+
+    .col-details{padding:2rem 2.5rem;display:flex;flex-direction:column;gap:1.5rem}
+    .pet-title-row{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem}
+    .pet-name{font-size:2.2rem;font-weight:900;line-height:1.05;letter-spacing:-.5px}
+    .pet-name small{display:block;font-size:.82rem;font-weight:400;color:#555;letter-spacing:1px;text-transform:uppercase;font-family:'Segoe UI',sans-serif;margin-top:.2rem}
+
+    .details-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem 1.5rem;border:1px solid #141414;padding:1rem}
+    .detail-label{font-family:'Segoe UI',sans-serif;font-size:.58rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#444;margin-bottom:.2rem}
+    .detail-value{font-family:'Segoe UI',sans-serif;font-size:.85rem;color:#ccc}
+
+    .reward-box{border:1px solid #e63c2f;padding:1rem 1.25rem;display:flex;align-items:center;gap:1.25rem;background:#0d0505}
+    .reward-amount{font-size:2rem;font-weight:900;color:#e63c2f;line-height:1;font-family:'Georgia',serif}
+    .reward-label{font-family:'Segoe UI',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#555;margin-bottom:.2rem}
+    .reward-note{font-family:'Segoe UI',sans-serif;font-size:.72rem;color:#444;line-height:1.5}
+    .no-reward{font-family:'Segoe UI',sans-serif;font-size:.82rem;color:#333;padding:.75rem;border:1px solid #141414}
+
+    .actions{display:flex;flex-direction:column;gap:.75rem}
+    .btn-red{display:flex;align-items:center;justify-content:center;background:#e63c2f;color:#fff;font-family:'Segoe UI',sans-serif;font-size:.85rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;padding:.95rem 2rem;text-decoration:none;border:none;cursor:pointer}
+    .btn-red:hover{background:#c9271b}
+    .btn-outline{display:flex;align-items:center;justify-content:center;background:transparent;color:#777;font-family:'Segoe UI',sans-serif;font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:.9rem 2rem;text-decoration:none;border:1px solid #2a2a2a;cursor:pointer}
+    .btn-outline:hover{border-color:#555;color:#ddd}
+    .btn-solve{background:#1a2a1a;color:#7aba7a;border:1px solid #2a5a2a;font-family:'Segoe UI',sans-serif;font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:.9rem 2rem;cursor:pointer;border-radius:0}
+    .btn-solve:hover{background:#0f1f0f}
+    .sign-in-note{font-family:'Segoe UI',sans-serif;font-size:.78rem;color:#444;text-align:center;padding:.75rem;border:1px solid #1a1a1a}
+    .sign-in-note a{color:#e63c2f;text-decoration:none}
+
+    .not-found{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4rem;gap:1rem}
+    .not-found-title{font-size:1.4rem;font-weight:900;color:#222;text-transform:uppercase}
+    .not-found-sub{font-family:'Segoe UI',sans-serif;font-size:.85rem;color:#333}
+
+    @media(max-width:700px){.layout{grid-template-columns:1fr}.col-photo{border-right:none;border-bottom:1px solid #141414}.pet-photo{min-height:200px}}
+  </style>
+</head>
+<body>
+
+  <div class="ticker-wrap">
+    <div class="ticker-label">Live</div>
+    <div class="ticker-track" id="ticker">
+      <span>FindMyPet — reuniting pets and families</span>
+      <span>FindMyPet — reuniting pets and families</span>
+    </div>
+  </div>
+
+  <header class="page-header">
+    <a href="index.html" class="page-logo">Find<em>My</em>Pet</a>
+    <div class="header-sep"></div>
+    <span class="page-section" id="page-section">Case Detail</span>
+    <nav class="header-nav" id="header-nav">
+      <a href="auth.html">Sign In</a>
+      <a href="auth.html" class="reg-btn">Register</a>
+    </nav>
+  </header>
+
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="browse.html">Browse</a><span>›</span>
+    <span id="breadcrumb-name">Loading…</span>
+  </div>
+
+  <div class="solved-banner" id="solved-banner">
+    ✓ &nbsp; This pet has been reunited with its owner.
+  </div>
+
+  <div id="content"></div>
+
+  <div class="not-found" id="not-found" style="display:none">
+    <div style="font-size:3rem;opacity:.2">🔍</div>
+    <div class="not-found-title">Case not found</div>
+    <div class="not-found-sub">This listing may have been removed.</div>
+    <a href="browse.html" style="color:#e63c2f;font-family:'Segoe UI',sans-serif;font-size:.82rem;margin-top:.5rem">← Back to Browse</a>
+  </div>
+
+  <footer>
+    <span>FindMyPet &copy; 2026</span>
+    <span>Community Missing Pet Registry</span>
+    <a href="privacy.html">Privacy Policy</a>
+  </footer>
+
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script src="app.js"></script>
+  <script>
+    function getParam(n){ return FMP.getParam(n); }
+    function petEmoji(t){ return FMP.petEmoji(t); }
+    function fmtDate(s) { return new Date(s).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}); }
+    async function doLogout() { await FMP.logout(); window.location.href = 'index.html'; }
+
+    async function solveListing(id) {
+      if (!confirm('Mark this case as Solved? Your pet has been found!')) return;
+      await FMP.solveListing(id);
+      location.reload();
+    }
+
+    function buildActions(l, user) {
+      const isOwner  = user && user.id === l.ownerId;
+      const loggedIn = !!user;
+
+      if (l.status === 'solved') return '';
+
+      if (isOwner) {
+        return `<div class="actions">
+          <button class="btn-solve" onclick="solveListing('${l.id}')">✓ &nbsp; Mark as Solved</button>
+          <a href="call-pro.html?listingId=${l.id}" class="btn-outline">Call a Professional Hunter</a>
+        </div>`;
+      }
+      if (loggedIn) {
+        return `<div class="actions">
+          <a href="messages.html?listingId=${l.id}&ownerId=${l.ownerId}" class="btn-red">I found this pet →</a>
+          <a href="messages.html?listingId=${l.id}&ownerId=${l.ownerId}" class="btn-outline">Message owner</a>
+        </div>`;
+      }
+      return `<div class="actions">
+        <div class="sign-in-note"><a href="auth.html?next=${encodeURIComponent(location.href)}">Sign in</a> to contact this owner or report a find.</div>
+      </div>`;
+    }
+
+    function render(l, user) {
+      const photoHtml  = l.photo
+        ? `<div class="pet-photo"><img src="${l.photo}" alt="${l.petName}" /></div>`
+        : `<div class="pet-photo">${petEmoji(l.petType)}</div>`;
+      const rewardHtml = l.reward
+        ? `<div class="reward-box"><div><div class="reward-label">Reward offered</div><div class="reward-amount">$${l.reward}</div></div><div class="reward-note">Paid in person at handoff.<br/>No app payment required.</div></div>`
+        : `<div class="no-reward">No reward listed for this case.</div>`;
+      const ageHtml = l.age ? `<div class="detail-item"><div class="detail-label">Age</div><div class="detail-value">${l.age} year${l.age !== 1 ? 's' : ''}</div></div>` : '';
+
+      document.getElementById('content').innerHTML = `
+        <div class="layout">
+          <div class="col-photo">
+            ${photoHtml}
+            <div class="desc-block">
+              <div class="section-rule">&#9632; Owner's Description</div>
+              <p class="desc-text">${l.description.replace(/\n/g,'<br/>')}</p>
+            </div>
+          </div>
+          <div class="col-details">
+            <div class="section-rule">&#9632; Case #${l.id.slice(-4)} &nbsp;·&nbsp; Posted ${fmtDate(l.postedAt)}</div>
+            <div class="pet-title-row">
+              <div class="pet-name">${l.petName}<small>${l.breed}</small></div>
+              <span class="badge badge-${l.status}">${l.status === 'open' ? 'Open' : 'Solved'}</span>
+            </div>
+            <div class="details-grid">
+              <div class="detail-item"><div class="detail-label">Color</div><div class="detail-value">${l.color}</div></div>
+              ${ageHtml}
+              <div class="detail-item"><div class="detail-label">Last Seen</div><div class="detail-value">${l.location}</div></div>
+              <div class="detail-item"><div class="detail-label">Date Last Seen</div><div class="detail-value">${fmtDate(l.dateSeen)}</div></div>
+              <div class="detail-item"><div class="detail-label">Posted by</div><div class="detail-value">${l.ownerName}</div></div>
+            </div>
+            ${rewardHtml}
+            ${buildActions(l, user)}
+          </div>
+        </div>`;
+
+      document.title = `${l.petName} — ${l.breed} — FindMyPet`;
+      document.getElementById('breadcrumb-name').textContent = `${l.petName} — ${l.breed}`;
+      document.getElementById('page-section').textContent    = `Case #${l.id.slice(-4)}`;
+      if (l.status === 'solved') document.getElementById('solved-banner').style.display = 'block';
+
+      // Ticker
+      const track = document.getElementById('ticker');
+      const items = [`${l.petName} the ${l.breed} — ${l.location}${l.reward ? ' — $' + l.reward + ' reward' : ''}`];
+      track.innerHTML = [...items, ...items].map(t => `<span>${t}</span>`).join('');
+    }
+
+    (async function () {
+      await FMP.initHeader();
+      const id = getParam('id');
+      if (!id) { document.getElementById('not-found').style.display = 'flex'; return; }
+      const [listing, user] = await Promise.all([FMP.getListing(id), FMP.getUser()]);
+      if (!listing) { document.getElementById('not-found').style.display = 'flex'; return; }
+      render(listing, user);
+    })();
+  </script>
+
+</body>
+</html>

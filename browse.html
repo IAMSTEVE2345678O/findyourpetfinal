@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Browse Cases — FindMyPet</title>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Georgia','Times New Roman',serif;background:#080808;color:#f0f0f0;min-height:100vh;display:flex;flex-direction:column}
+    .ticker-wrap{background:#e63c2f;overflow:hidden;white-space:nowrap;height:28px;display:flex;align-items:center}
+    .ticker-label{background:#9a1a10;color:#fff;font-family:'Segoe UI',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:0 1rem;height:100%;display:flex;align-items:center;flex-shrink:0}
+    .ticker-track{display:inline-block;animation:ticker 28s linear infinite}
+    .ticker-track span{font-family:'Segoe UI',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#fff;padding:0 2.5rem}
+    .ticker-track span::before{content:'●  ';opacity:.6}
+    @keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+    .page-header{background:#080808;border-bottom:3px solid #e63c2f;padding:0 2.5rem;height:52px;display:flex;align-items:center;gap:1.25rem;flex-shrink:0}
+    .page-logo{font-family:'Georgia',serif;font-size:1.4rem;font-weight:900;letter-spacing:-1px;text-transform:uppercase;color:#fff;text-decoration:none;line-height:1;white-space:nowrap}
+    .page-logo em{font-style:normal;color:#e63c2f}
+    .header-sep{width:1px;height:20px;background:#2a2a2a;flex-shrink:0}
+    .page-section{font-family:'Segoe UI',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#555}
+    .header-nav{margin-left:auto;display:flex;align-items:center;gap:.75rem}
+    .header-nav a{font-family:'Segoe UI',sans-serif;font-size:.72rem;color:#555;text-decoration:none;letter-spacing:.5px}
+    .header-nav a:hover{color:#ddd}
+    .header-nav .reg-btn{background:#e63c2f;color:#fff !important;padding:.3rem .8rem;font-weight:700;font-size:.68rem;letter-spacing:1px;text-transform:uppercase}
+    .header-nav .reg-btn:hover{background:#c9271b}
+    footer{border-top:3px double #1a1a1a;padding:.9rem 2.5rem;display:flex;justify-content:space-between;align-items:center;margin-top:auto}
+    footer span,footer a{font-family:'Segoe UI',sans-serif;font-size:.62rem;color:#2a2a2a;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none}
+    footer a:hover{color:#555}
+    .badge{font-family:'Segoe UI',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:.2rem .55rem;display:inline-block}
+    .badge-open{background:#e63c2f;color:#fff}
+    .badge-solved{background:#1a1a1a;color:#555;border:1px solid #2a2a2a}
+
+    .toolbar{border-bottom:1px solid #141414;padding:.85rem 2.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+    .filter-tabs{display:flex}
+    .filter-tab{font-family:'Segoe UI',sans-serif;font-size:.65rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:.45rem 1rem;border:1px solid #222;border-right:none;background:#080808;color:#444;cursor:pointer;transition:background .1s,color .1s}
+    .filter-tab:last-child{border-right:1px solid #222}
+    .filter-tab.active,.filter-tab:hover{background:#e63c2f;border-color:#e63c2f;color:#fff}
+    .case-count{font-family:'Segoe UI',sans-serif;font-size:.65rem;color:#333;letter-spacing:1px;text-transform:uppercase;margin-left:auto}
+    .case-count b{color:#777;font-weight:700}
+
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#141414;flex:1;align-content:start}
+
+    .card{background:#080808;text-decoration:none;color:inherit;display:flex;flex-direction:column;transition:background .12s}
+    .card:hover{background:#0d0d0d}
+    .card-photo{height:160px;background:#111;display:flex;align-items:center;justify-content:center;font-size:4rem;border-bottom:1px solid #141414;overflow:hidden}
+    .card-photo img{width:100%;height:100%;object-fit:cover}
+    .card-body{padding:1.1rem 1.25rem;flex:1;display:flex;flex-direction:column;gap:.5rem}
+    .card-name{font-family:'Segoe UI',sans-serif;font-size:.9rem;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#ddd}
+    .card-breed{font-family:'Segoe UI',sans-serif;font-size:.72rem;color:#555}
+    .card-meta{font-family:'Segoe UI',sans-serif;font-size:.72rem;color:#444;line-height:1.6}
+    .card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:.75rem;border-top:1px solid #111}
+    .card-reward{font-family:'Segoe UI',sans-serif;font-size:.72rem;color:#e63c2f;font-weight:700}
+
+    /* EMPTY STATE */
+    .empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4rem 2rem;gap:1rem}
+    .empty-icon{font-size:4rem;opacity:.2}
+    .empty-title{font-size:1.4rem;font-weight:900;color:#222;text-transform:uppercase;letter-spacing:-.5px}
+    .empty-sub{font-family:'Segoe UI',sans-serif;font-size:.85rem;color:#333;max-width:380px;line-height:1.7}
+    .empty-btn{display:inline-block;background:#e63c2f;color:#fff;font-family:'Segoe UI',sans-serif;font-size:.8rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;padding:.85rem 2rem;text-decoration:none;margin-top:.5rem}
+    .empty-btn:hover{background:#c9271b}
+
+    @media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:540px){.grid{grid-template-columns:1fr}.toolbar{padding:.75rem 1rem}}
+  </style>
+</head>
+<body>
+
+  <div class="ticker-wrap">
+    <div class="ticker-label">Live</div>
+    <div class="ticker-track" id="ticker">
+      <span>FindMyPet — reuniting pets and families</span>
+      <span>Browse all open missing pet cases</span>
+      <span>FindMyPet — reuniting pets and families</span>
+      <span>Browse all open missing pet cases</span>
+    </div>
+  </div>
+
+  <header class="page-header">
+    <a href="index.html" class="page-logo">Find<em>My</em>Pet</a>
+    <div class="header-sep"></div>
+    <span class="page-section">Browse Cases</span>
+    <nav class="header-nav" id="header-nav">
+      <a href="auth.html">Sign In</a>
+      <a href="auth.html" class="reg-btn">Register</a>
+    </nav>
+  </header>
+
+  <div class="toolbar">
+    <div class="filter-tabs">
+      <button class="filter-tab active" onclick="filter('all',this)">All</button>
+      <button class="filter-tab" onclick="filter('dog',this)">Dog</button>
+      <button class="filter-tab" onclick="filter('cat',this)">Cat</button>
+      <button class="filter-tab" onclick="filter('bird',this)">Bird</button>
+      <button class="filter-tab" onclick="filter('other',this)">Other</button>
+    </div>
+    <div class="case-count"><b id="count">0</b> cases</div>
+  </div>
+
+  <div id="grid" class="grid"></div>
+  <div id="empty" class="empty" style="display:none">
+    <div class="empty-icon">🔍</div>
+    <div class="empty-title">No open cases</div>
+    <div class="empty-sub">No missing pet cases have been posted yet. If your pet is lost, be the first to report it and let your neighborhood know.</div>
+    <a href="report.html" class="empty-btn">Report a missing pet →</a>
+  </div>
+
+  <footer>
+    <span>FindMyPet &copy; 2026</span>
+    <span>Community Missing Pet Registry</span>
+    <a href="privacy.html">Privacy Policy</a>
+  </footer>
+
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script src="app.js"></script>
+  <script>
+    function petEmoji(t)   { return FMP.petEmoji(t); }
+    function fmtDate(ts)   { return new Date(ts).toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'}); }
+    async function doLogout() { await FMP.logout(); window.location.href = 'index.html'; }
+
+    let allListings   = [];
+    let currentFilter = 'all';
+
+    function makeCard(l) {
+      const reward = l.reward ? '$' + l.reward + ' reward' : 'No reward listed';
+      const photo  = l.photo
+        ? `<div class="card-photo"><img src="${l.photo}" alt="${l.petName}" /></div>`
+        : `<div class="card-photo">${petEmoji(l.petType)}</div>`;
+      return `
+        <a href="listing.html?id=${l.id}" class="card" data-type="${l.petType}">
+          ${photo}
+          <div class="card-body">
+            <div class="card-name">${l.petName}</div>
+            <div class="card-breed">${l.breed} · ${l.color}</div>
+            <div class="card-meta">Last seen: ${l.location}<br/>Posted: ${fmtDate(l.postedAt)}</div>
+            <div class="card-footer">
+              <span class="badge badge-${l.status}">${l.status === 'open' ? 'Open' : 'Solved'}</span>
+              <span class="card-reward">${reward}</span>
+            </div>
+          </div>
+        </a>`;
+    }
+
+    function renderGrid(type) {
+      const filtered = type === 'all' ? allListings : allListings.filter(l => l.petType === type);
+      const grid  = document.getElementById('grid');
+      const empty = document.getElementById('empty');
+      document.getElementById('count').textContent = filtered.length;
+      if (filtered.length === 0) {
+        grid.style.display  = 'none';
+        empty.style.display = 'flex';
+      } else {
+        grid.style.display  = 'grid';
+        empty.style.display = 'none';
+        grid.innerHTML = filtered.map(makeCard).join('');
+      }
+    }
+
+    function filter(type, btn) {
+      document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = type;
+      renderGrid(type);
+    }
+
+    // Dynamic ticker showing real listing names
+    function buildTicker() {
+      const listings = allListings.filter(l => l.status === 'open').slice(0, 6);
+      const track = document.getElementById('ticker');
+      if (listings.length === 0) return;
+      const items = listings.map(l => `<span>${l.petName} the ${l.breed} — ${l.location}${l.reward ? ' — $' + l.reward + ' reward' : ''}</span>`);
+      track.innerHTML = [...items, ...items].join('');
+    }
+
+    (async function () {
+      await FMP.initHeader();
+      allListings = (await FMP.getListings()).filter(l => !l.archived);
+      buildTicker();
+      renderGrid('all');
+    })();
+  </script>
+
+</body>
+</html>

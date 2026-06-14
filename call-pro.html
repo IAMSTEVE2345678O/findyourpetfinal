@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Call a Professional — FindMyPet</title>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Georgia','Times New Roman',serif;background:#080808;color:#f0f0f0;min-height:100vh;display:flex;flex-direction:column}
+    .ticker-wrap{background:#e63c2f;overflow:hidden;white-space:nowrap;height:28px;display:flex;align-items:center}
+    .ticker-label{background:#9a1a10;color:#fff;font-family:'Segoe UI',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:0 1rem;height:100%;display:flex;align-items:center;flex-shrink:0}
+    .ticker-track{display:inline-block;animation:ticker 28s linear infinite}
+    .ticker-track span{font-family:'Segoe UI',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#fff;padding:0 2.5rem}
+    .ticker-track span::before{content:'●  ';opacity:.6}
+    @keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+    .page-header{background:#080808;border-bottom:3px solid #e63c2f;padding:0 2.5rem;height:52px;display:flex;align-items:center;gap:1.25rem;flex-shrink:0}
+    .page-logo{font-family:'Georgia',serif;font-size:1.4rem;font-weight:900;letter-spacing:-1px;text-transform:uppercase;color:#fff;text-decoration:none;line-height:1;white-space:nowrap}
+    .page-logo em{font-style:normal;color:#e63c2f}
+    .header-sep{width:1px;height:20px;background:#2a2a2a;flex-shrink:0}
+    .page-section{font-family:'Segoe UI',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#555}
+    .header-nav{margin-left:auto;display:flex;align-items:center;gap:.75rem}
+    .header-nav a{font-family:'Segoe UI',sans-serif;font-size:.72rem;color:#555;text-decoration:none;letter-spacing:.5px}
+    .header-nav a:hover{color:#ddd}
+    .header-nav .reg-btn{background:#e63c2f;color:#fff !important;padding:.3rem .8rem;font-weight:700;font-size:.68rem;letter-spacing:1px;text-transform:uppercase}
+    .section-rule{font-family:'Segoe UI',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#e63c2f;border-bottom:2px solid #e63c2f;padding-bottom:.5rem;margin-bottom:1.5rem}
+    footer{border-top:3px double #1a1a1a;padding:.9rem 2.5rem;display:flex;justify-content:space-between;align-items:center;margin-top:auto}
+    footer span,footer a{font-family:'Segoe UI',sans-serif;font-size:.62rem;color:#2a2a2a;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none}
+    footer a:hover{color:#555}
+
+    .layout{display:grid;grid-template-columns:3fr 2fr;flex:1;border-bottom:1px solid #141414}
+    .col-left{padding:2.5rem;border-right:1px solid #141414}
+    .col-right{padding:2.5rem}
+
+    /* Hero box */
+    .hotline-box{border:1px solid #e63c2f;padding:2rem;background:#0d0505;margin-bottom:2rem;text-align:center}
+    .hotline-label{font-family:'Segoe UI',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#e63c2f;margin-bottom:.75rem}
+    .hotline-number{font-size:2.6rem;font-weight:900;color:#fff;font-family:'Georgia',serif;letter-spacing:2px;line-height:1}
+    .hotline-sub{font-family:'Segoe UI',sans-serif;font-size:.75rem;color:#555;margin-top:.65rem}
+
+    /* Services */
+    .services{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#141414;border:1px solid #141414;margin-bottom:2rem}
+    .svc{background:#080808;padding:1.25rem;text-align:center}
+    .svc-icon{font-size:1.8rem;margin-bottom:.5rem}
+    .svc-title{font-family:'Segoe UI',sans-serif;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#ddd;margin-bottom:.25rem}
+    .svc-desc{font-family:'Segoe UI',sans-serif;font-size:.7rem;color:#555;line-height:1.55}
+
+    /* Fee */
+    .fee-row{display:flex;align-items:center;gap:1.5rem;border:1px solid #141414;padding:1.25rem;margin-bottom:2rem}
+    .fee-amount{font-size:2.2rem;font-weight:900;color:#e63c2f;font-family:'Georgia',serif;line-height:1;flex-shrink:0}
+    .fee-detail{font-family:'Segoe UI',sans-serif;font-size:.8rem;color:#777;line-height:1.7}
+    .fee-detail strong{color:#ccc}
+
+    /* FAQ */
+    .faq-item{border-bottom:1px solid #111;padding:1rem 0}
+    .faq-item:last-child{border-bottom:none}
+    .faq-q{font-family:'Segoe UI',sans-serif;font-size:.85rem;font-weight:700;color:#ccc;margin-bottom:.35rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+    .faq-q::after{content:'›';color:#e63c2f;font-size:1rem;transition:transform .2s}
+    .faq-item.open .faq-q::after{transform:rotate(90deg)}
+    .faq-a{font-family:'Segoe UI',sans-serif;font-size:.8rem;color:#555;line-height:1.7;max-height:0;overflow:hidden;transition:max-height .25s ease}
+    .faq-item.open .faq-a{max-height:200px}
+
+    /* Booking form */
+    .form-group{margin-bottom:1rem}
+    .form-label{display:block;font-family:'Segoe UI',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#555;margin-bottom:.4rem}
+    .form-label .opt{color:#2a2a2a;font-weight:400;letter-spacing:0;text-transform:none}
+    .form-input,.form-select,.form-textarea{width:100%;background:#0f0f0f;border:1px solid #1f1f1f;color:#f0f0f0;font-family:'Segoe UI',sans-serif;font-size:.85rem;padding:.65rem .85rem}
+    .form-input:focus,.form-select:focus,.form-textarea:focus{outline:none;border-color:#e63c2f}
+    .form-input::placeholder,.form-textarea::placeholder{color:#2a2a2a}
+    .form-select option{background:#0f0f0f}
+    .form-textarea{resize:vertical;min-height:90px}
+    .btn-book{width:100%;padding:.95rem;background:#e63c2f;color:#fff;font-family:'Segoe UI',sans-serif;font-size:.88rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;border:none;cursor:pointer;margin-top:.5rem}
+    .btn-book:hover{background:#c9271b}
+    .err-msg{font-family:'Segoe UI',sans-serif;font-size:.78rem;color:#e63c2f;padding:.6rem .8rem;border:1px solid rgba(230,60,47,.25);background:#120505;margin-bottom:.75rem;display:none}
+    .sign-in-note{font-family:'Segoe UI',sans-serif;font-size:.8rem;color:#444;padding:.75rem;border:1px solid #141414;text-align:center;line-height:1.7}
+    .sign-in-note a{color:#e63c2f;text-decoration:none}
+
+    /* Confirmation */
+    .confirm-box{border:1px solid #2a5a2a;background:#0a1a0a;padding:1.75rem;text-align:center;display:none}
+    .confirm-icon{font-size:2rem;margin-bottom:.75rem}
+    .confirm-title{font-size:1.1rem;font-weight:900;text-transform:uppercase;letter-spacing:-.3px;color:#7aba7a;margin-bottom:.5rem}
+    .confirm-sub{font-family:'Segoe UI',sans-serif;font-size:.8rem;color:#555;line-height:1.8}
+    .confirm-ref{font-family:'Segoe UI',sans-serif;font-size:.7rem;color:#2a5a2a;margin-top:1rem;letter-spacing:1px;text-transform:uppercase}
+
+    @media(max-width:700px){.layout{grid-template-columns:1fr}.col-left{border-right:none;border-bottom:1px solid #141414}.services{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+
+  <div class="ticker-wrap">
+    <div class="ticker-label">Live</div>
+    <div class="ticker-track">
+      <span>3 licensed hunters per case — $50 flat fee — full refund if unsuccessful</span>
+      <span>Professional pet hunters available 7 days a week</span>
+      <span>3 licensed hunters per case — $50 flat fee — full refund if unsuccessful</span>
+      <span>Professional pet hunters available 7 days a week</span>
+    </div>
+  </div>
+
+  <header class="page-header">
+    <a href="index.html" class="page-logo">Find<em>My</em>Pet</a>
+    <div class="header-sep"></div>
+    <span class="page-section">Professional Search</span>
+    <nav class="header-nav" id="header-nav">
+      <a href="auth.html">Sign In</a>
+      <a href="auth.html" class="reg-btn">Register</a>
+    </nav>
+  </header>
+
+  <div class="layout">
+
+    <div class="col-left">
+      <div class="section-rule">&#9632; Professional Pet Hunters</div>
+
+      <div class="hotline-box">
+        <div class="hotline-label">Direct Booking Hotline</div>
+        <div class="hotline-number">1-800-FINDPET</div>
+        <div class="hotline-sub">Available 7 days a week &nbsp;·&nbsp; 8 am – 10 pm local time</div>
+      </div>
+
+      <div class="services">
+        <div class="svc">
+          <div class="svc-icon">🔍</div>
+          <div class="svc-title">3 Hunters</div>
+          <div class="svc-desc">Each covering a different sector of your neighborhood simultaneously</div>
+        </div>
+        <div class="svc">
+          <div class="svc-icon">📋</div>
+          <div class="svc-title">Licensed</div>
+          <div class="svc-desc">All hunters hold valid specialized search-and-recovery certification</div>
+        </div>
+        <div class="svc">
+          <div class="svc-icon">📅</div>
+          <div class="svc-title">7-Day Search</div>
+          <div class="svc-desc">Full search window with daily updates — money back if unsuccessful</div>
+        </div>
+      </div>
+
+      <div class="fee-row">
+        <div class="fee-amount">$50</div>
+        <div class="fee-detail">
+          <strong>Flat fee — paid at booking, no hidden charges.</strong><br />
+          Full refund guaranteed if your pet is not found within 7 days, or if the team formally declares the search unsuccessful at any point.
+        </div>
+      </div>
+
+      <div class="section-rule">&#9632; FAQ</div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">What happens after I book?</div>
+        <div class="faq-a">Three hunters are assigned within 2 hours. They divide your pet's last-seen neighborhood into sectors and begin searching the same day, reporting back to you each evening.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">How do hunters know where to look?</div>
+        <div class="faq-a">They use the details from your listing — description, photo, last-seen location, and local knowledge — to target the most likely spots and known shelters in the area.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">How do I get a refund?</div>
+        <div class="faq-a">If the search is unsuccessful after 7 days, a refund report is filed automatically and the $50 is returned to your original payment method within 3–5 business days.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Can I book without an open listing?</div>
+        <div class="faq-a">Yes — you can enter your pet's details manually in the booking form. We recommend posting a listing too, since community sightings often lead to the fastest reunions.</div>
+      </div>
+    </div>
+
+    <div class="col-right">
+      <div class="section-rule">&#9632; Book a Search Team</div>
+
+      <div class="confirm-box" id="confirm-box">
+        <div class="confirm-icon">✅</div>
+        <div class="confirm-title">Booking Confirmed</div>
+        <div class="confirm-sub">Your search team has been notified.<br/>Three hunters will be assigned within 2 hours.<br/>You'll receive daily updates by phone.</div>
+        <div class="confirm-ref" id="confirm-ref"></div>
+        <a href="browse.html" style="display:inline-block;margin-top:1.25rem;color:#e63c2f;font-family:'Segoe UI',sans-serif;font-size:.78rem;text-decoration:none">← Back to Browse</a>
+      </div>
+
+      <div id="booking-form">
+        <div class="err-msg" id="err-msg"></div>
+
+        <div id="listing-select-group" class="form-group">
+          <label class="form-label">Link to My Listing <span class="opt">(optional)</span></label>
+          <select class="form-select" id="f-listing">
+            <option value="">— Enter pet details manually below —</option>
+          </select>
+        </div>
+
+        <div id="manual-fields">
+          <div class="form-group">
+            <label class="form-label">Pet Name</label>
+            <input class="form-input" type="text" id="f-pet-name" placeholder="e.g. Max" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Last Seen Location</label>
+            <input class="form-input" type="text" id="f-location" placeholder="e.g. Riverside neighborhood" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Your Phone Number</label>
+          <input class="form-input" type="tel" id="f-phone" placeholder="e.g. 555-123-4567" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Additional Notes <span class="opt">(optional)</span></label>
+          <textarea class="form-textarea" id="f-notes" placeholder="Any other details for the hunters — hiding spots, feeding habits, collar description…"></textarea>
+        </div>
+
+        <div id="auth-notice" class="sign-in-note" style="display:none">
+          <a href="auth.html?next=call-pro.html">Sign in</a> or <a href="auth.html?next=call-pro.html">create a free account</a> to book a search team.
+        </div>
+
+        <button class="btn-book" id="book-btn" onclick="submitBooking()">Book Search Team — $50 →</button>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <span>FindMyPet &copy; 2026</span>
+    <span>Community Missing Pet Registry</span>
+    <a href="privacy.html">Privacy Policy</a>
+  </footer>
+
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script src="app.js"></script>
+  <script>
+    function esc(s){ return FMP.esc(s); }
+    async function doLogout(){ await FMP.logout(); window.location.href='index.html'; }
+
+    let me = null;
+    let myOpenListings = [];
+
+    function toggleFaq(el){
+      el.closest('.faq-item').classList.toggle('open');
+    }
+
+    function populateListingSelect(){
+      const sel=document.getElementById('f-listing');
+      myOpenListings.forEach(l=>{
+        const opt=document.createElement('option');
+        opt.value=l.id;
+        opt.textContent=`${l.petName} — ${l.breed} — ${l.location}`;
+        sel.appendChild(opt);
+      });
+      sel.addEventListener('change',onListingChange);
+    }
+
+    function onListingChange(){
+      const sel=document.getElementById('f-listing');
+      const listing=myOpenListings.find(l=>l.id===sel.value);
+      const manual=document.getElementById('manual-fields');
+      if(listing){
+        document.getElementById('f-pet-name').value=listing.petName;
+        document.getElementById('f-location').value=listing.location;
+        manual.style.display='none';
+      } else {
+        document.getElementById('f-pet-name').value='';
+        document.getElementById('f-location').value='';
+        manual.style.display='block';
+      }
+    }
+
+    function showErr(msg){
+      const el=document.getElementById('err-msg');
+      el.textContent=msg;
+      el.style.display='block';
+    }
+
+    async function submitBooking(){
+      if(!me){
+        document.getElementById('auth-notice').style.display='block';
+        document.getElementById('book-btn').style.display='none';
+        return;
+      }
+      const listingId=document.getElementById('f-listing').value;
+      const petName  =document.getElementById('f-pet-name').value.trim();
+      const location =document.getElementById('f-location').value.trim();
+      const phone    =document.getElementById('f-phone').value.trim();
+      const notes    =document.getElementById('f-notes').value.trim();
+
+      document.getElementById('err-msg').style.display='none';
+
+      if(!listingId&&!petName){ showErr('Please select a listing or enter your pet\'s name.'); return; }
+      if(!listingId&&!location){ showErr('Please enter the last seen location.'); return; }
+      if(!phone){ showErr('Please enter your phone number so hunters can reach you.'); return; }
+
+      const listing=listingId?myOpenListings.find(l=>l.id===listingId):null;
+      const btn=document.getElementById('book-btn');
+      btn.disabled=true;
+      try{
+        const booking=await FMP.addBooking({
+          userId: me.id,
+          listingId: listingId||null,
+          petName: listing?listing.petName:petName,
+          location: listing?listing.location:location,
+          phone, notes
+        });
+
+        document.getElementById('booking-form').style.display='none';
+        const box=document.getElementById('confirm-box');
+        box.style.display='block';
+        document.getElementById('confirm-ref').textContent='Reference: '+booking.id.slice(0,8).toUpperCase()+' · Payment collected at handoff';
+      }catch(err){
+        showErr(err.message||'Could not complete your booking. Please try again.');
+        btn.disabled=false;
+      }
+    }
+
+    (async function(){
+      await FMP.initHeader();
+      me = await FMP.getUser();
+      if(me){
+        document.getElementById('f-phone').value=me.phone||'';
+        myOpenListings = (await FMP.getUserListings(me.id)).filter(l=>l.status==='open');
+        populateListingSelect();
+      } else {
+        document.getElementById('auth-notice').style.display='none';
+      }
+
+      // Pre-fill from URL params (e.g. linked from listing.html)
+      const preListingId=new URLSearchParams(location.search).get('listingId');
+      if(preListingId){
+        const sel=document.getElementById('f-listing');
+        sel.value=preListingId;
+        onListingChange();
+      }
+    })();
+  </script>
+
+</body>
+</html>
