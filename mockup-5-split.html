@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mockup 5 — Split Screen</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #0f0f0f; color: #f0f0f0; min-height: 100vh; display: flex; flex-direction: column; }
+
+    .mockup-label { background: #333; color: #aaa; font-size: 0.72rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; text-align: center; padding: 0.5rem; }
+
+    header { background: #0f0f0f; padding: 0 2.5rem; display: flex; align-items: center; justify-content: space-between; height: 60px; border-bottom: 1px solid #1a1a1a; }
+    .logo { font-size: 1.2rem; font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 2px; }
+    .logo span { color: #e63c2f; }
+    .header-nav a { font-size: 0.78rem; color: #555; text-decoration: none; margin-left: 1.5rem; font-weight: 600; }
+
+    /* Two-column split */
+    .split { display: grid; grid-template-columns: 1fr 1fr; flex: 1; }
+
+    .left { background: #e63c2f; padding: 4rem 3rem; display: flex; flex-direction: column; justify-content: center; min-height: 420px; }
+    .left-tag { font-size: 0.68rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 1.25rem; }
+    .left h2 { font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 900; line-height: 1.1; text-transform: uppercase; color: #fff; margin-bottom: 1rem; }
+    .left p { font-size: 0.88rem; color: rgba(255,255,255,0.7); line-height: 1.7; margin-bottom: 2rem; max-width: 320px; }
+    .left-btn { display: inline-block; background: #fff; color: #e63c2f; padding: 0.85rem 1.75rem; font-size: 0.85rem; font-weight: 800; text-transform: uppercase; border-radius: 3px; text-decoration: none; letter-spacing: 0.5px; width: fit-content; }
+
+    .right { background: #1a1a1a; padding: 4rem 3rem; display: flex; flex-direction: column; justify-content: center; }
+    .right-title { font-size: 0.68rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #444; margin-bottom: 1.5rem; }
+    .link-list { display: flex; flex-direction: column; gap: 0.75rem; }
+    .link-item { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.25rem; border: 1px solid #2a2a2a; border-radius: 4px; text-decoration: none; color: inherit; }
+    .link-item:hover { border-color: #e63c2f; }
+    .link-icon { font-size: 1.4rem; flex-shrink: 0; }
+    .link-text-title { font-size: 0.88rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+    .link-text-desc { font-size: 0.72rem; color: #555; margin-top: 0.1rem; }
+    .link-arrow { margin-left: auto; color: #333; font-size: 0.9rem; }
+
+    footer { padding: 1.25rem 2.5rem; border-top: 1px solid #1a1a1a; text-align: center; }
+    footer a { font-size: 0.75rem; color: #333; text-decoration: none; }
+
+    @media (max-width: 640px) {
+      .split { grid-template-columns: 1fr; }
+      .left, .right { padding: 2.5rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="mockup-label">Mockup 5 — Split Screen</div>
+
+  <header>
+    <div class="logo">Find<span>My</span>Pet</div>
+    <div>
+      <a href="#">Browse</a>
+      <a href="#">Sign in</a>
+    </div>
+  </header>
+
+  <div class="split">
+    <div class="left">
+      <div class="left-tag">&#9679; Lost a pet?</div>
+      <h2>Post it.<br />Let your whole<br />neighborhood know.</h2>
+      <p>Every second matters. Create a listing now and instantly alert everyone nearby.</p>
+      <a href="#" class="left-btn">Report a missing pet</a>
+    </div>
+
+    <div class="right">
+      <div class="right-title">More options</div>
+      <div class="link-list">
+        <a href="#" class="link-item">
+          <span class="link-icon">🔍</span>
+          <div>
+            <div class="link-text-title">Browse</div>
+            <div class="link-text-desc">Search all open cases nearby</div>
+          </div>
+          <span class="link-arrow">›</span>
+        </a>
+        <a href="#" class="link-item">
+          <span class="link-icon">💬</span>
+          <div>
+            <div class="link-text-title">Texting Portal</div>
+            <div class="link-text-desc">Message an owner or finder</div>
+          </div>
+          <span class="link-arrow">›</span>
+        </a>
+        <a href="#" class="link-item">
+          <span class="link-icon">📞</span>
+          <div>
+            <div class="link-text-title">Call a Professional</div>
+            <div class="link-text-desc">Hire a licensed pet hunter</div>
+          </div>
+          <span class="link-arrow">›</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <footer><a href="#">Privacy Policy</a></footer>
+</body>
+</html>

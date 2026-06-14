@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<!-- STYLE C: Retro / brutalist — thick borders, bold yellow, raw grid, no rounded corners, like a zine or Craigslist reimagined -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Style C — Retro Brutalist</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Courier New', monospace; background: #f5f0e0; color: #111; min-height: 100vh; display: flex; flex-direction: column; }
+
+    .style-tag { background: #111; color: #f5f0e0; font-size: 0.7rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; text-align: center; padding: 0.5rem; }
+
+    header { background: #ffe94a; border-bottom: 4px solid #111; padding: 1.5rem 2rem; display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; }
+    .logo { font-size: 3rem; font-weight: 900; color: #111; letter-spacing: -2px; line-height: 1; text-transform: uppercase; font-family: Impact, 'Arial Black', sans-serif; }
+    .logo-sub { font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase; color: #111; opacity: 0.5; margin-top: 0.25rem; }
+    .header-right { text-align: right; }
+    .live-count { font-size: 2rem; font-weight: 900; line-height: 1; font-family: Impact, sans-serif; }
+    .live-label { font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; opacity: 0.5; }
+
+    .notice-bar { background: #111; color: #ffe94a; padding: 0.6rem 2rem; font-size: 0.8rem; letter-spacing: 1px; display: flex; align-items: center; gap: 0.5rem; }
+
+    main { display: grid; grid-template-columns: 2fr 1fr; border-bottom: 4px solid #111; flex: 1; }
+
+    .col-main { border-right: 4px solid #111; }
+    .col-main-top { padding: 2.5rem 2rem; border-bottom: 4px solid #111; }
+    .stamp { display: inline-block; border: 3px solid #111; padding: 0.3rem 0.8rem; font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1.25rem; }
+    .main-headline { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; line-height: 1; text-transform: uppercase; font-family: Impact, 'Arial Black', sans-serif; letter-spacing: -1px; margin-bottom: 1.5rem; }
+    .main-headline .highlight { background: #ffe94a; }
+    .main-body { font-size: 0.85rem; color: #444; line-height: 1.8; max-width: 500px; margin-bottom: 2rem; }
+    .big-btn { display: inline-block; background: #111; color: #ffe94a; padding: 1rem 2.5rem; font-size: 0.9rem; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; text-decoration: none; border: 3px solid #111; font-family: Impact, sans-serif; }
+
+    .col-main-bottom { display: grid; grid-template-columns: 1fr 1fr; }
+    .sub-item { padding: 1.5rem 2rem; border-right: 4px solid #111; }
+    .sub-item:last-child { border-right: none; }
+    .sub-num { font-size: 3rem; font-weight: 900; font-family: Impact, sans-serif; color: #ddd; line-height: 1; margin-bottom: 0.5rem; }
+    .sub-title { font-size: 0.85rem; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.3rem; }
+    .sub-desc { font-size: 0.75rem; color: #777; line-height: 1.6; }
+    .sub-link { display: inline-block; margin-top: 0.75rem; font-size: 0.75rem; font-weight: 700; text-decoration: underline; color: #111; text-transform: uppercase; letter-spacing: 1px; }
+
+    .col-side { padding: 2rem; display: flex; flex-direction: column; gap: 2rem; }
+    .side-section-title { font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase; color: #aaa; border-bottom: 2px solid #111; padding-bottom: 0.5rem; margin-bottom: 0.75rem; }
+    .side-nav-item { border: 2px solid #111; padding: 0.9rem 1rem; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center; text-decoration: none; color: #111; }
+    .side-nav-item:hover { background: #ffe94a; }
+    .side-nav-label { font-size: 0.82rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; }
+    .side-nav-arrow { font-size: 1rem; }
+
+    .fee-box { border: 3px solid #111; padding: 1rem; background: #ffe94a; }
+    .fee-box-title { font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.5rem; }
+    .fee-amount { font-size: 2.5rem; font-weight: 900; font-family: Impact, sans-serif; line-height: 1; }
+    .fee-desc { font-size: 0.72rem; color: #555; margin-top: 0.3rem; line-height: 1.5; }
+
+    footer { background: #111; color: #f5f0e0; padding: 0.75rem 2rem; display: flex; justify-content: space-between; }
+    footer span, footer a { font-size: 0.7rem; color: #666; text-decoration: none; letter-spacing: 1px; text-transform: uppercase; }
+
+    @media (max-width: 640px) { main { grid-template-columns: 1fr; } .col-main { border-right: none; } .col-main-bottom { grid-template-columns: 1fr; } .sub-item { border-right: none; border-bottom: 4px solid #111; } .col-side { border-top: 4px solid #111; } }
+  </style>
+</head>
+<body>
+  <div class="style-tag">Style C — Retro / Brutalist</div>
+
+  <header>
+    <div>
+      <div class="logo">FindMyPet</div>
+      <div class="logo-sub">Missing pet registry &amp; finder network</div>
+    </div>
+    <div class="header-right">
+      <div class="live-count">340</div>
+      <div class="live-label">Open cases now</div>
+    </div>
+  </header>
+
+  <div class="notice-bar">&#9650; ACTIVE ALERT — Max the Labrador missing in Riverside &nbsp;|&nbsp; Kiwi the Parrot missing in Elm Street &nbsp;|&nbsp; Shadow the Tabby missing in Pine Hill</div>
+
+  <main>
+    <div class="col-main">
+      <div class="col-main-top">
+        <div class="stamp">&#9679; Urgent</div>
+        <div class="main-headline">LOST A<br />PET?<br /><span class="highlight">ACT NOW.</span></div>
+        <p class="main-body">Every hour matters. Post your case and put your missing pet in front of hundreds of neighbors. Set a reward. Let the community do the searching.</p>
+        <a href="#" class="big-btn">Report a missing pet →</a>
+      </div>
+      <div class="col-main-bottom">
+        <div class="sub-item">
+          <div class="sub-num">01</div>
+          <div class="sub-title">Browse Cases</div>
+          <div class="sub-desc">Scroll all open listings. Filter by dog, cat, bird, or other.</div>
+          <a href="#" class="sub-link">Go →</a>
+        </div>
+        <div class="sub-item">
+          <div class="sub-num">02</div>
+          <div class="sub-title">Texting Portal</div>
+          <div class="sub-desc">Direct messaging between owners and finders. Attach photos.</div>
+          <a href="#" class="sub-link">Go →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-side">
+      <div>
+        <div class="side-section-title">Navigation</div>
+        <a href="#" class="side-nav-item"><span class="side-nav-label">Browse</span><span class="side-nav-arrow">→</span></a>
+        <a href="#" class="side-nav-item"><span class="side-nav-label">Texting Portal</span><span class="side-nav-arrow">→</span></a>
+        <a href="#" class="side-nav-item"><span class="side-nav-label">Call a Pro</span><span class="side-nav-arrow">→</span></a>
+      </div>
+      <div>
+        <div class="side-section-title">Professional Service</div>
+        <div class="fee-box">
+          <div class="fee-box-title">Flat fee</div>
+          <div class="fee-amount">$50</div>
+          <div class="fee-desc">3 licensed hunters, 7-day search. Full refund if not found.</div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <span>FindMyPet &copy; 2026</span>
+    <a href="#">Privacy Policy</a>
+  </footer>
+</body>
+</html>

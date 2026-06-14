@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<!-- STYLE B: Bright white consumer app — blue/green, rounded, friendly, like Airbnb or Duolingo -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Style B — Bright Consumer App</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, 'Segoe UI', Arial, sans-serif; background: #f5f7ff; color: #1a1a2e; min-height: 100vh; display: flex; flex-direction: column; }
+
+    .style-tag { background: #4f6ef7; color: #fff; font-size: 0.7rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; text-align: center; padding: 0.5rem; }
+
+    header { background: #fff; padding: 0 2.5rem; display: flex; align-items: center; justify-content: space-between; height: 64px; box-shadow: 0 1px 0 #eef0ff; }
+    .logo { font-size: 1.4rem; font-weight: 900; color: #1a1a2e; }
+    .logo span { color: #4f6ef7; }
+    .header-actions { display: flex; gap: 0.75rem; align-items: center; }
+    .btn-ghost { font-size: 0.82rem; font-weight: 600; color: #888; background: none; border: none; cursor: pointer; padding: 0.4rem 0.9rem; border-radius: 20px; text-decoration: none; }
+    .btn-pill { font-size: 0.82rem; font-weight: 700; color: #fff; background: #4f6ef7; border: none; cursor: pointer; padding: 0.5rem 1.25rem; border-radius: 20px; text-decoration: none; }
+
+    .hero { background: #fff; padding: 5rem 2.5rem 4rem; text-align: center; border-bottom: 1px solid #eef0ff; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: #eef0ff; color: #4f6ef7; font-size: 0.75rem; font-weight: 700; padding: 0.35rem 0.9rem; border-radius: 20px; margin-bottom: 1.5rem; }
+    .hero h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); font-weight: 900; color: #1a1a2e; line-height: 1.15; margin-bottom: 1rem; letter-spacing: -1px; }
+    .hero h1 em { font-style: normal; background: linear-gradient(135deg, #4f6ef7, #7b5ef7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero p { font-size: 1.05rem; color: #8890b5; max-width: 500px; margin: 0 auto 2.5rem; line-height: 1.7; }
+
+    .cta-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .cta-main { background: #4f6ef7; color: #fff; padding: 1rem 2.5rem; font-size: 1rem; font-weight: 700; border-radius: 30px; text-decoration: none; box-shadow: 0 4px 20px #4f6ef740; }
+    .cta-sub { background: #fff; color: #4f6ef7; padding: 1rem 2.5rem; font-size: 1rem; font-weight: 700; border-radius: 30px; text-decoration: none; border: 2px solid #eef0ff; }
+
+    .cards-section { padding: 3rem 2.5rem; }
+    .cards-title { text-align: center; font-size: 0.78rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #bcc0d8; margin-bottom: 1.5rem; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; max-width: 900px; margin: 0 auto; }
+    .card { background: #fff; border-radius: 16px; padding: 1.75rem; box-shadow: 0 2px 16px #1a1a2e0a; text-decoration: none; color: inherit; border: 2px solid transparent; transition: border-color 0.15s, box-shadow 0.15s; display: block; }
+    .card:hover { border-color: #4f6ef7; box-shadow: 0 4px 24px #4f6ef720; }
+    .card-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1rem; }
+    .icon-blue { background: #eef0ff; }
+    .icon-green { background: #e8faf2; }
+    .icon-orange { background: #fff4ec; }
+    .card-title { font-size: 1rem; font-weight: 800; color: #1a1a2e; margin-bottom: 0.35rem; }
+    .card-desc { font-size: 0.8rem; color: #9099b8; line-height: 1.6; }
+
+    footer { margin-top: auto; padding: 1.5rem 2.5rem; text-align: center; border-top: 1px solid #eef0ff; }
+    footer a { font-size: 0.78rem; color: #c0c5d8; text-decoration: none; }
+
+    @media (max-width: 480px) { .cta-row { flex-direction: column; align-items: stretch; } .cta-main, .cta-sub { text-align: center; } }
+  </style>
+</head>
+<body>
+  <div class="style-tag">Style B — Bright Consumer App</div>
+
+  <header>
+    <div class="logo">🐾 Find<span>My</span>Pet</div>
+    <div class="header-actions">
+      <a href="#" class="btn-ghost">Browse</a>
+      <a href="#" class="btn-pill">Sign up free</a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-badge">&#9679; 1,240 pets reunited so far</div>
+    <h1>Your missing pet<br />is closer than<br /><em>you think.</em></h1>
+    <p>Post a listing, tap into your neighborhood's eyes, and get expert help when you need it most.</p>
+    <div class="cta-row">
+      <a href="#" class="cta-main">Report a missing pet</a>
+      <a href="#" class="cta-sub">Browse open cases</a>
+    </div>
+  </section>
+
+  <div class="cards-section">
+    <div class="cards-title">Everything you need</div>
+    <div class="cards">
+      <a href="#" class="card">
+        <div class="card-icon icon-blue">🔍</div>
+        <div class="card-title">Browse Cases</div>
+        <div class="card-desc">Scroll all active missing pet listings. Filter by type. Spot a match.</div>
+      </a>
+      <a href="#" class="card">
+        <div class="card-icon icon-green">💬</div>
+        <div class="card-title">Texting Portal</div>
+        <div class="card-desc">Private messaging between owners and finders. Share photos securely.</div>
+      </a>
+      <a href="#" class="card">
+        <div class="card-icon icon-orange">📞</div>
+        <div class="card-title">Call a Professional</div>
+        <div class="card-desc">3 licensed hunters, 7-day search, $50 flat — full refund if not found.</div>
+      </a>
+    </div>
+  </div>
+
+  <footer><a href="#">Privacy Policy</a></footer>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<!-- STYLE D: Glassmorphism / modern SaaS — blurred glass cards, gradient background, like a 2024 startup -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Style D — Glassmorphism</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, 'Segoe UI', Arial, sans-serif;
+      background: #0d0d1a;
+      color: #e8e8ff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Glowing background blobs */
+    body::before {
+      content: '';
+      position: fixed; top: -200px; left: -200px;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, #7b2fff44 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+    body::after {
+      content: '';
+      position: fixed; bottom: -150px; right: -100px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, #ff4a6e33 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+
+    .style-tag { background: #7b2fff; color: #fff; font-size: 0.7rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; text-align: center; padding: 0.5rem; position: relative; z-index: 10; }
+
+    header {
+      position: relative; z-index: 10;
+      padding: 0 2.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+      background: rgba(255,255,255,0.03);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .logo { font-size: 1.3rem; font-weight: 800; color: #fff; letter-spacing: -0.5px; }
+    .logo span { background: linear-gradient(135deg, #a96dff, #ff6d9f); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .header-right { display: flex; gap: 0.75rem; align-items: center; }
+    .btn-ghost { font-size: 0.8rem; font-weight: 600; color: rgba(255,255,255,0.4); background: none; border: none; cursor: pointer; padding: 0.4rem 0.9rem; text-decoration: none; }
+    .btn-glass { font-size: 0.82rem; font-weight: 700; color: #fff; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); cursor: pointer; padding: 0.5rem 1.25rem; border-radius: 8px; text-decoration: none; backdrop-filter: blur(10px); }
+
+    .hero { position: relative; z-index: 1; padding: 6rem 2.5rem 4rem; text-align: center; }
+    .hero-pill { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(123,47,255,0.2); border: 1px solid rgba(123,47,255,0.4); color: #c09eff; font-size: 0.72rem; font-weight: 700; padding: 0.35rem 1rem; border-radius: 20px; margin-bottom: 2rem; }
+    .hero h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 900; line-height: 1.08; letter-spacing: -2px; margin-bottom: 1.25rem; }
+    .hero h1 .grad { background: linear-gradient(135deg, #c09eff 0%, #ff9ec0 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero p { font-size: 1.05rem; color: rgba(255,255,255,0.4); max-width: 500px; margin: 0 auto 3rem; line-height: 1.7; }
+
+    .cta-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .cta-main { background: linear-gradient(135deg, #7b2fff, #ff4a6e); color: #fff; padding: 1rem 2.5rem; font-size: 0.95rem; font-weight: 700; border-radius: 12px; text-decoration: none; box-shadow: 0 4px 30px rgba(123,47,255,0.4); }
+    .cta-sub { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.7); padding: 1rem 2.5rem; font-size: 0.95rem; font-weight: 600; border-radius: 12px; text-decoration: none; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); }
+
+    .glass-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; max-width: 860px; margin: 4rem auto 0; padding: 0 2.5rem; position: relative; z-index: 1; }
+
+    .glass-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 1.75rem;
+      backdrop-filter: blur(20px);
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    .glass-card:hover { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.2); }
+    .card-glow { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 1rem; }
+    .glow-purple { background: rgba(123,47,255,0.3); }
+    .glow-pink { background: rgba(255,74,110,0.3); }
+    .glow-teal { background: rgba(74,210,200,0.2); }
+    .card-title { font-size: 0.95rem; font-weight: 700; color: rgba(255,255,255,0.9); margin-bottom: 0.4rem; }
+    .card-desc { font-size: 0.78rem; color: rgba(255,255,255,0.35); line-height: 1.6; }
+
+    footer { margin-top: auto; padding: 2rem 2.5rem; text-align: center; position: relative; z-index: 1; }
+    footer a { font-size: 0.75rem; color: rgba(255,255,255,0.2); text-decoration: none; }
+
+    @media (max-width: 480px) { .cta-row { flex-direction: column; align-items: stretch; } .cta-main, .cta-sub { text-align: center; } .glass-grid { padding: 0 1.25rem; } }
+  </style>
+</head>
+<body>
+  <div class="style-tag">Style D — Glassmorphism / Modern SaaS</div>
+
+  <header>
+    <div class="logo">🐾 Find<span>MyPet</span></div>
+    <div class="header-right">
+      <a href="#" class="btn-ghost">Browse</a>
+      <a href="#" class="btn-glass">Sign up</a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-pill">&#9679; 340 active cases in your area</div>
+    <h1>Your pet is<br /><span class="grad">out there.</span><br />Let's find them.</h1>
+    <p>Post a missing pet and get your whole neighborhood searching. AI-powered verification. Professional hunters on standby.</p>
+    <div class="cta-row">
+      <a href="#" class="cta-main">Report a missing pet</a>
+      <a href="#" class="cta-sub">Browse open cases</a>
+    </div>
+  </section>
+
+  <div class="glass-grid">
+    <a href="#" class="glass-card">
+      <div class="card-glow glow-purple">🔍</div>
+      <div class="card-title">Browse Cases</div>
+      <div class="card-desc">Scroll all active missing pet listings. Filter by type. Spot a match.</div>
+    </a>
+    <a href="#" class="glass-card">
+      <div class="card-glow glow-pink">💬</div>
+      <div class="card-title">Texting Portal</div>
+      <div class="card-desc">Private AI-verified messaging between owners and finders.</div>
+    </a>
+    <a href="#" class="glass-card">
+      <div class="card-glow glow-teal">📞</div>
+      <div class="card-title">Call a Professional</div>
+      <div class="card-desc">3 licensed hunters, $50 flat fee, full refund if not found in 7 days.</div>
+    </a>
+  </div>
+
+  <footer><a href="#">Privacy Policy</a></footer>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mockup 1 — Bold & Urgent</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #0f0f0f; color: #f0f0f0; min-height: 100vh; display: flex; flex-direction: column; }
+
+    .mockup-label { background: #333; color: #aaa; font-size: 0.72rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; text-align: center; padding: 0.5rem; }
+
+    header { background: #1a1a1a; border-bottom: 3px solid #e63c2f; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .logo { font-size: 1.6rem; font-weight: 900; letter-spacing: -0.5px; color: #fff; text-transform: uppercase; }
+    .logo span { color: #e63c2f; }
+    .header-badge { background: #e63c2f; color: #fff; font-size: 0.68rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; padding: 0.3rem 0.8rem; border-radius: 3px; }
+
+    .hero { background: #1a1a1a; border-bottom: 1px solid #2a2a2a; padding: 3.5rem 2rem 3rem; text-align: center; }
+    .hero-eyebrow { font-size: 0.72rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #e63c2f; margin-bottom: 1rem; }
+    .hero h1 { font-size: clamp(2.4rem, 6vw, 4.2rem); font-weight: 900; line-height: 1.05; text-transform: uppercase; color: #fff; margin-bottom: 1rem; }
+    .hero h1 em { font-style: normal; color: #e63c2f; }
+    .hero p { font-size: 1.05rem; color: #777; max-width: 500px; margin: 0 auto; line-height: 1.6; }
+
+    .nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; max-width: 680px; margin: 3rem auto; padding: 0 2rem; }
+    .nav-btn { display: flex; flex-direction: column; align-items: flex-start; gap: 0.3rem; padding: 1.4rem 1.6rem; border: 2px solid #333; background: #1a1a1a; color: #f0f0f0; text-decoration: none; border-radius: 4px; }
+    .nav-btn.primary { background: #e63c2f; border-color: #e63c2f; color: #fff; }
+    .nav-btn-label { font-size: 1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+    .nav-btn-desc { font-size: 0.78rem; color: #666; }
+    .nav-btn.primary .nav-btn-desc { color: rgba(255,255,255,0.7); }
+
+    footer { margin-top: auto; padding: 1.5rem 2rem; border-top: 1px solid #222; text-align: center; }
+    footer a { font-size: 0.78rem; color: #444; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="mockup-label">Mockup 1 — Bold &amp; Urgent</div>
+
+  <header>
+    <div class="logo">Find<span>My</span>Pet</div>
+    <div class="header-badge">&#9679; Active cases</div>
+  </header>
+
+  <section class="hero">
+    <p class="hero-eyebrow">Every minute counts</p>
+    <h1>Find your<br /><em>lost pet</em><br />now.</h1>
+    <p>Post a missing pet, help a neighbor find theirs, or call in a licensed professional.</p>
+  </section>
+
+  <nav class="nav-grid">
+    <a href="#" class="nav-btn primary">
+      <span class="nav-btn-label">Report</span>
+      <span class="nav-btn-desc">Post a missing pet case</span>
+    </a>
+    <a href="#" class="nav-btn">
+      <span class="nav-btn-label">Browse</span>
+      <span class="nav-btn-desc">Search all open cases nearby</span>
+    </a>
+    <a href="#" class="nav-btn">
+      <span class="nav-btn-label">Texting Portal</span>
+      <span class="nav-btn-desc">Message an owner or finder</span>
+    </a>
+    <a href="#" class="nav-btn">
+      <span class="nav-btn-label">Call a Professional</span>
+      <span class="nav-btn-desc">Hire a licensed pet hunter</span>
+    </a>
+  </nav>
+
+  <footer><a href="#">Privacy Policy</a></footer>
+</body>
+</html>
