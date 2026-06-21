@@ -44,7 +44,7 @@
     .upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
     .upload-icon{font-size:2rem;margin-bottom:.5rem;opacity:.3}
     .upload-text{font-family:'Segoe UI',sans-serif;font-size:.78rem;color:#444}
-    .upload-preview{width:100%;max-height:220px;object-fit:cover;display:none;border:1px solid #1a1a1a}
+    .upload-preview{width:100%;max-height:220px;object-fit:contain;display:none;border:1px solid #1a1a1a}
 
     .form-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
 
@@ -84,7 +84,7 @@
       <div class="error-msg" id="err"></div>
 
       <div class="form-group">
-        <label class="form-label">Pet Photo</label>
+        <label class="form-label">Pet Photo <span class="form-opt">(optional)</span></label>
         <div class="upload-area" id="upload-area">
           <input type="file" accept="image/*" id="photo-input" onchange="previewPhoto(this)" />
           <img id="photo-preview" class="upload-preview" alt="preview" />
@@ -211,13 +211,12 @@
       if (!location) { showError('Last seen location is required.');    return; }
       if (!dateSeen) { showError('Date last seen is required.');        return; }
       if (!desc)     { showError('Please add a description.');          return; }
-      if (!photoFile) { showError('Please upload a photo of your pet.'); return; }
 
       const btn = document.querySelector('.btn-submit');
       btn.disabled = true;
       btn.textContent = 'Posting…';
       try {
-        const photoUrl = await FMP.uploadPhoto(photoFile, 'listings');
+        const photoUrl = photoFile ? await FMP.uploadPhoto(photoFile, 'listings') : null;
         const listing = await FMP.addListing({
           ownerId:  user.id,
           petName, petType, breed, color,

@@ -144,8 +144,9 @@ const FMP = {
 
   /* ── USERS / AUTH ── */
   async getUser() {
-    const { data: { user } } = await sb.auth.getUser();
-    if (!user) return null;
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) return null;
+    const user = session.user;
     const { data: profile } = await sb.from('profiles')
       .select('name, phone, created_at')
       .eq('id', user.id)
